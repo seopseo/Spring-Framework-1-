@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="co.micol.prj.board.service.BoardService">
+	<select id="boardSelectList" resultType="co.micol.prj.board.service.BoardVO">
+		SELECT * FROM BOARD ORDER BY NO DESC
+	</select>
+	
+	<select id="boardSelect" resultType="co.micol.prj.board.service.BoardVO">
+	 	SELECT * FROM BOARD WHERE NO = #{no}
+	</select>
+	
+	<insert id="boardInsert" parameterType="co.micol.prj.board.service.BoardVO">
+		<selectKey keyProperty="no" resultType="int" order="BEFORE">
+			SELECT MAX(NO) + 1 AS NO FROM BOARD
+		</selectKey>
+		INSERT INTO BOARD(NO, WRITER, WDATE, TITLE, SUBJECT)
+		VALUES(#{no}, #{writer}, #{wdate}, #{title}, #{subject})
+	</insert>
+	
+	<update id="boardUpdate" parameterType="co.micol.prj.board.service.BoardVO">
+		UPDATE BOARD
+		SET TITLE = #{title}, SUBJECT = #{subject}
+		WHERE NO = #{no}
+	</update>
+	
+	<delete id="boardDelete">
+		DELETE FROM BOARD WHERE NO = #{no}
+	</delete>
+</mapper>
